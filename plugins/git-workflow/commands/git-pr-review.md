@@ -133,9 +133,9 @@ git diff origin/$BASE_BRANCH...HEAD -- <file>
    - Detected issues (bugs, security, logic problems, inconsistencies with existing code)
    - Suggested comments ready to post
 
-4. **Present to user** (use $REPO_ROOT from Step 6 to build the absolute path):
+4. **Present to user** (`<filename>` = just the file name, `<filepath>` = path from repo root, use $REPO_ROOT from Step 6):
 ```
-📄 File X/Y: <filepath> (+N/-M lines)
+📄 File X/Y: <filename> (+N/-M lines)
 📁 View full file: $REPO_ROOT/<filepath>:1
 
 📝 Changes:
