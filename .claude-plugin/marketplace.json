@@ -1,0 +1,23 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "julien92-plugins",
+  "version": "1.0.0",
+  "description": "Collection of Claude Code plugins for Git workflows and development",
+  "owner": {
+    "name": "Julien Cornille",
+    "email": "julien.cornille92@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "git-workflow",
+      "description": "AI-powered Git workflows: smart commits, PR creation, changelogs",
+      "version": "0.1.0",
+      "author": {
+        "name": "Julien Cornille",
+        "email": "julien.cornille92@gmail.com"
+      },
+      "source": "./plugins/git-workflow",
+      "category": "productivity"
+    }
+  ]
+}
