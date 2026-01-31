@@ -29,7 +29,7 @@ claude plugin install git-workflow@julien92-plugins
 |---------|-------------|
 | `/git-commit` | Review diff + generate Gitmoji commit message |
 | `/git-commit-push` | Commit with Gitmoji + push to remote |
-| `/git-commit-push-pr` | Commit + push + create PR (GitHub/GitLab/Bitbucket) |
+| `/git-commit-push-pr` | Commit + push + create PR targeting parent branch (GitHub/GitLab/Bitbucket) |
 | `/git-changelog` | Generate changelog between two tags |
 | `/git-help-rebase` | Interactive assistant to resolve rebase conflicts |
 | `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
@@ -57,7 +57,7 @@ Commits your changes, pushes to remote, and creates a PR on GitHub/GitLab/Bitbuc
   - Add session management
   ```
 - Auto-detects provider from remote URL (github.com, gitlab.com, bitbucket.org)
-- For Bitbucket: targets `develop` branch if it exists, otherwise `main`
+- **Targets the parent branch**: automatically detects the branch from which your feature branch was created (e.g., if you branched from `develop`, the PR targets `develop`)
 
 ### Generate Changelog
 ```
