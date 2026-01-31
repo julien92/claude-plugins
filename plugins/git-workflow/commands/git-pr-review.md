@@ -122,11 +122,11 @@ For each changed file:
 cat <file>
 ```
 
-2. **Show the diff** and get the first modified line number:
+2. **Get the diff** (you will display it to the user in step 4):
 ```bash
 git diff origin/$BASE_BRANCH...HEAD -- <file>
 ```
-Extract `FIRST_LINE` from the first `@@` hunk header (e.g. `@@ -97,6 +97,7 @@` → line 97).
+Also extract `FIRST_LINE` from the first `@@` hunk header (e.g. `@@ -97,6 +97,7 @@` → line 97).
 
 3. **Analyze the code in context and provide:**
    - Brief summary of what the changes do
