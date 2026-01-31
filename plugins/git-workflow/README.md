@@ -1,6 +1,6 @@
 # git-workflow
 
-A set of workflows that leverage AI to help developers in their daily tasks, powered by Git.
+A set of workflows that leverage AI to help developers in their daily tasks, powered by Git and Claude Code.
 
 ## Requirements
 
