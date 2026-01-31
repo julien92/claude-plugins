@@ -116,22 +116,31 @@ git diff origin/$BASE_BRANCH...HEAD --name-only
 
 For each changed file:
 
-1. **Show the diff:**
+1. **Read the full file** to understand the context:
+```bash
+cat <file>
+```
+
+2. **Show the diff** to see what changed:
 ```bash
 git diff origin/$BASE_BRANCH...HEAD -- <file>
 ```
 
-2. **Analyze the code and provide:**
+3. **Analyze the code in context and provide:**
    - Brief summary of what the changes do
-   - Detected issues (bugs, security, logic problems)
+   - How the changes fit within the existing code structure
+   - Detected issues (bugs, security, logic problems, inconsistencies with existing code)
    - Suggested comments ready to post
 
-3. **Present to user:**
+4. **Present to user:**
 ```
 📄 File X/Y: <filepath> (+N/-M lines)
 
+📝 Changes:
+<Show the diff content here so user can see the modifications>
+
 🔍 Analysis:
-<Brief explanation of what this code does>
+<Brief explanation of what this code does and how it fits in the existing structure>
 
 ⚠️ Issues detected:
 - L:<line> → <description of issue>
@@ -150,7 +159,7 @@ Actions:
 - "done" → finish review
 ```
 
-4. **Wait for user input before proceeding**
+5. **Wait for user input before proceeding**
 
 ## Step 8: Post inline comments
 
@@ -200,6 +209,7 @@ Ask the user how to finalize:
 - **approve** → Approve the PR
 - **request-changes** → Request changes
 - **comment** → Submit as comment only
+- **skip** → Skip finalization and just restore context
 
 **GitHub:**
 ```bash
