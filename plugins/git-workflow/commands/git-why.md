@@ -30,11 +30,14 @@ Use git commands to collect history. Choose what's relevant:
 # Who touched which lines and when
 git blame <file>
 
-# Full history of a file with diffs
-git log -p --follow -- <file>
+# Full history of a file with diffs (limit to avoid noise)
+git log -n 30 -p --follow -- <file>
 
 # Search commits by keyword (function name, bug description, etc.)
 git log --all --grep="<keyword>"
+
+# Find when specific code was added or removed (pickaxe search)
+git log -S "<code_snippet>" --oneline -- <file>
 
 # Inspect a specific commit in detail
 git show <commit>
@@ -66,3 +69,18 @@ Explain clearly:
 Format your response as a narrative, not a list. Help the user truly understand the history.
 
 If you discover potential improvements or issues during your investigation, mention them at the end.
+
+### Example
+
+**User**: "Why is this regex so complex?" (pointing to a validation function)
+
+**Good response**:
+> This regex evolved over 8 months through 4 commits:
+>
+> 1. **Initial version (commit a1b2c3, March)** - Simple `\d+` pattern for numeric IDs
+> 2. **UUID support (commit d4e5f6, May)** - Product team migrated to UUIDs, pattern extended
+> 3. **Legacy fix (commit g7h8i9, July)** - Bug #234: old records had dashes, added optional group
+> 4. **Edge case (commit j0k1l2, October)** - Production incident: some IDs had underscores
+>
+> The complexity comes from **backwards compatibility** with 3 different ID formats.
+> Consider: split into separate validators or document the supported formats.
