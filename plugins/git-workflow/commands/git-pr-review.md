@@ -127,10 +127,7 @@ This gives you the full picture of all modifications. Use this context to provid
 
 For each changed file:
 
-1. **Read the full file** to understand the context:
-```bash
-cat <file>
-```
+1. **Read the full file and explore related files if needed**: Read the changed file to understand the context. If understanding the changes requires additional context (imported modules, interfaces, base classes, called functions, etc.), read those files too. Use your judgment to determine what's relevant.
 
 2. **Get the diff** (you will display it to the user in step 4):
 ```bash
