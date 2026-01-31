@@ -77,10 +77,10 @@ If you discover potential improvements or issues during your investigation, ment
 **Good response**:
 > This regex evolved over 8 months through 4 commits:
 >
-> 1. **Initial version (commit a1b2c3, March)** - Simple `\d+` pattern for numeric IDs
-> 2. **UUID support (commit d4e5f6, May)** - Product team migrated to UUIDs, pattern extended
-> 3. **Legacy fix (commit g7h8i9, July)** - Bug #234: old records had dashes, added optional group
-> 4. **Edge case (commit j0k1l2, October)** - Production incident: some IDs had underscores
+> 1. **Initial version (a1b2c3, Alice, March)** - Simple `\d+` pattern for numeric IDs
+> 2. **UUID support (d4e5f6, Bob, May)** - Product team migrated to UUIDs, pattern extended
+> 3. **Legacy fix (g7h8i9, Alice, July)** - Bug #234: old records had dashes, added optional group
+> 4. **Edge case (j0k1l2, Charlie, October)** - Production incident: some IDs had underscores
 >
 > The complexity comes from **backwards compatibility** with 3 different ID formats.
 > Consider: split into separate validators or document the supported formats.
