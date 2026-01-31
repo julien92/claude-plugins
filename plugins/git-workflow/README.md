@@ -1,14 +1,6 @@
 # git-workflow
 
-AI-powered Git workflows for Claude Code. Smart commits with Gitmoji, changelogs, and conflict resolution.
-
-## Features
-
-- 🤖 **AI-assisted** — Claude analyzes your changes and generates meaningful messages
-- 😀 **Gitmoji commits** — Visual commit messages with emoji prefixes
-- 🔀 **Conflict resolution** — Interactive help for rebase conflicts
-- 🧹 **Branch cleanup** — Remove stale branches automatically
-- 🔍 **Git archaeology** — Understand WHY code exists, not just WHO wrote it
+A set of workflows that leverage AI to help developers in their daily tasks, powered by Git.
 
 ## Requirements
 
