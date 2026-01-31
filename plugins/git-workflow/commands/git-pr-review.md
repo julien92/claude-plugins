@@ -51,7 +51,7 @@ glab mr list --state opened --per-page 20
 **Bitbucket:**
 Extract workspace and repo from remote URL, then:
 ```bash
-curl -s -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
+curl -sN -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
   "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo}/pullrequests?state=OPEN&pagelen=20"
 ```
 
@@ -97,7 +97,7 @@ BASE_BRANCH=$(glab api projects/:fullpath/merge_requests/<mr-iid> -q .target_bra
 
 **Bitbucket:**
 ```bash
-PR_INFO=$(curl -s -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
+PR_INFO=$(curl -sN -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
   "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo}/pullrequests/{pr_id}")
 BASE_BRANCH=$(echo "$PR_INFO" | jq -r '.destination.branch.name')
 ```

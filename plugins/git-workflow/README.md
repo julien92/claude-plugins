@@ -9,6 +9,14 @@ AI-powered Git workflows for Claude Code. Smart commits with Gitmoji, changelogs
 - 🔀 **Conflict resolution** — Interactive help for rebase conflicts
 - 🧹 **Branch cleanup** — Remove stale branches automatically
 
+## Requirements
+
+- **git** — Version control
+- **jq** — JSON parser ([jqlang.github.io/jq](https://jqlang.github.io/jq/)) — for Bitbucket
+- **curl** — HTTP client — for Bitbucket
+- **gh** — GitHub CLI ([cli.github.com](https://cli.github.com/)) — for GitHub
+- **glab** — GitLab CLI ([gitlab.com/gitlab-org/cli](https://gitlab.com/gitlab-org/cli)) — for GitLab
+
 ## Installation
 
 ```bash
