@@ -33,6 +33,7 @@ claude plugin install git-workflow@julien92-plugins
 | `/git-commit-push-pr` | Commit + push + create PR targeting parent branch (GitHub/GitLab/Bitbucket) |
 | `/git-changelog` | Generate changelog between two tags |
 | `/git-help-rebase` | Interactive assistant to resolve rebase conflicts |
+| `/git-pr-review` | AI-assisted PR review with inline comments (GitHub/GitLab/Bitbucket) |
 | `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
 | `/git-why` | AI-powered git archaeology — understand WHY code exists |
 
@@ -72,6 +73,31 @@ Generates a grouped changelog from commits between two versions.
 /git-help-rebase
 ```
 Claude guides you through each conflict, explains both versions, and suggests resolutions.
+
+### Review a Pull Request
+```
+/git-pr-review
+```
+Claude lists open PRs, checks out the one you choose, and reviews each file:
+
+```
+📄 [1/5] src/auth/login.ts:42 (+15/-3 lines)
+🎯 PR: Add OAuth2 authentication
+
+📝 Changes:
+<diff content>
+
+🔍 Analysis:
+Adds OAuth2 flow but token isn't validated before storage.
+
+💬 Review comments:
+1. L:47 [security] Token stored without validation
+   → "Consider validating the token signature before storing"
+
+Actions: "1" to post, "next" to skip, "done" to finish
+```
+
+Supports GitHub, GitLab, and Bitbucket with inline comments.
 
 ### Clean Branches
 ```
