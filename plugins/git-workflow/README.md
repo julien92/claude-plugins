@@ -8,6 +8,7 @@ AI-powered Git workflows for Claude Code. Smart commits with Gitmoji, changelogs
 - 😀 **Gitmoji commits** — Visual commit messages with emoji prefixes
 - 🔀 **Conflict resolution** — Interactive help for rebase conflicts
 - 🧹 **Branch cleanup** — Remove stale branches automatically
+- 🔍 **Git archaeology** — Understand WHY code exists, not just WHO wrote it
 
 ## Requirements
 
@@ -33,6 +34,7 @@ claude plugin install git-workflow@julien92-plugins
 | `/git-changelog` | Generate changelog between two tags |
 | `/git-help-rebase` | Interactive assistant to resolve rebase conflicts |
 | `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
+| `/git-why` | AI-powered git archaeology — understand WHY code exists |
 
 ## Usage Examples
 
@@ -76,6 +78,22 @@ Claude guides you through each conflict, explains both versions, and suggests re
 /git-clean-branches
 ```
 Lists and deletes local branches that have been merged or whose remote was deleted.
+
+### Understand Code History
+```
+/git-why
+```
+Ask Claude why code exists the way it does. Claude investigates git history (blame, log, pickaxe search) and tells the story of the code:
+
+> **You**: "Why is this regex so complex?"
+>
+> **Claude**: This regex evolved over 8 months through 4 commits:
+> 1. **Initial version (a1b2c3, Alice, March)** — Simple `\d+` for numeric IDs
+> 2. **UUID support (d4e5f6, Bob, May)** — Product team migrated to UUIDs
+> 3. **Legacy fix (g7h8i9, Alice, July)** — Bug #234: old records had dashes
+> 4. **Edge case (j0k1l2, Charlie, October)** — Production incident with underscores
+>
+> The complexity comes from backwards compatibility with 3 ID formats.
 
 ## Configuration
 
