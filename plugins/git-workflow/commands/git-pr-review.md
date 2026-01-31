@@ -132,7 +132,7 @@ git diff origin/$BASE_BRANCH...HEAD -- <file>
    - Detected issues (bugs, security, logic problems, inconsistencies with existing code)
    - Suggested comments ready to post
 
-4. **Present to user:**
+4. **Present to user** (IMPORTANT: `<filepath>` must be the full path from repo root, e.g. `src/main/java/com/example/MyClass.java`, not just the filename):
 ```
 📄 File X/Y: <filepath> (+N/-M lines)
 📁 View full file: <filepath>:1
