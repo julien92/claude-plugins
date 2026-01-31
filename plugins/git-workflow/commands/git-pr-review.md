@@ -52,7 +52,9 @@ glab mr list --state opened --per-page 20
 Extract workspace and repo from remote URL, then:
 ```bash
 curl -sN -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-  "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo}/pullrequests?state=OPEN&pagelen=20"
+  "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo}/pullrequests?state=OPEN&pagelen=20" \
+  > /tmp/bitbucket_prs.json && \
+  jq -r '.values[] | "PR #\(.id) | \(.source.branch.name) -> \(.destination.branch.name) | \(.title) | by \(.author.display_name)"' /tmp/bitbucket_prs.json
 ```
 
 Display the list and ask the user which PR they want to review.
@@ -97,9 +99,9 @@ BASE_BRANCH=$(glab api projects/:fullpath/merge_requests/<mr-iid> -q .target_bra
 
 **Bitbucket:**
 ```bash
-PR_INFO=$(curl -sN -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-  "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo}/pullrequests/{pr_id}")
-BASE_BRANCH=$(echo "$PR_INFO" | jq -r '.destination.branch.name')
+curl -sN -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
+  "https://api.bitbucket.org/2.0/repositories/{workspace}/{repo}/pullrequests/{pr_id}" > /tmp/pr_info.json
+BASE_BRANCH=$(jq -r '.destination.branch.name' /tmp/pr_info.json)
 ```
 
 ## Step 6: Get the list of changed files
@@ -247,5 +249,10 @@ Confirm to the user that their context has been restored.
 - If user says "done" at any point, skip to Step 9
 - Handle errors gracefully (network issues, auth problems)
 - For self-hosted GitLab/GitHub, the API endpoints remain the same but authentication must be configured
+- When piping command outputs (e.g., `curl | jq`), prefer saving to a temporary file first then processing, as direct pipes may fail in some execution contexts:
+  ```bash
+  # Instead of: curl -s "url" | jq '...'
+  # Use: curl -s "url" > /tmp/file.json && jq '...' /tmp/file.json
+  ```
 
 Do not use any other tools or do anything else beyond the PR review workflow described above.
