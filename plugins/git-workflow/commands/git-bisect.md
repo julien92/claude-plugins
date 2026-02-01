@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git:*), Bash(chmod +x ./bisect-test.sh), Bash(rm ./bisect-test.sh), Bash(./bisect-test.sh), Bash(gh pr create:*), Bash(glab mr create:*), Read, Write, Edit
+allowed-tools: Bash(git:*), Bash(chmod +x ./bisect-test.sh), Bash(rm ./bisect-test.sh), Bash(./bisect-test.sh), Read, Write, Edit
 description: Find the commit that introduced a bug using AI-powered binary search
 argument-hint: "[bad-commit] [good-commit]"
 ---
@@ -51,8 +51,7 @@ If yes:
 2. Create fix branch: `git checkout -b fix/<short-description>`
 3. Implement the fix
 4. Run the test script to verify fix works
-5. Commit with message: `🐛 Fix <description>`
-6. Push and create PR targeting the original branch
+5. Use `/git-commit-push-pr` to commit, push and create PR
 
 ### 6. Cleanup (if user declined fix)
 
