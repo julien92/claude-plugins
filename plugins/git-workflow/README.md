@@ -80,28 +80,38 @@ Generates a grouped changelog from commits between two versions.
 ```
 /git-bisect
 ```
-Claude **automatically tests each commit** to find where a bug was introduced. You describe the bug and how to verify it, then Claude does the rest:
+Claude **automatically tests each commit** to find where a bug was introduced. Describe the bug and how to reproduce it — Claude creates a test script and runs it on each commit:
 
 ```
-You: "The login test started failing somewhere between v1.0 and now"
+You: "POST /api/users returns 500 instead of 201 since last week"
 
-Claude: I'll test using `npm test -- --grep "login"`
+Claude: I'll create a test script to check the API response.
 
-🔍 Bisect Progress [Step 3/~7]
+📝 Test script (/tmp/bisect-test.sh):
+┌─────────────────────────────────────────────────
+│ npm install && npm start &
+│ sleep 3
+│ STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+│   -X POST http://localhost:3000/api/users \
+│   -d '{"name":"test"}')
+│ kill $SERVER_PID
+│ [ "$STATUS" = "201" ] && exit 0 || exit 1
+└─────────────────────────────────────────────────
+
+Ready to start? [y/n]
+
+🔍 Bisect Progress [Step 4/~7]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 Commit: a1b2c3d
-📝 Message: Add user validation
-👤 Author: Alice (2 weeks ago)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 Commit: a1b2c3d - "Add user validation"
+🧪 Running test script...
+❌ BAD (exit 1) - API returns 500
 
-🧪 Testing... running npm test
-✅ GOOD - Tests pass, bug not present yet
+🎯 Found the culprit!
+📍 Commit: d4e5f6g - "Refactor validation middleware"
+🔬 This commit changed error handling in the validation layer...
 ```
 
-Test strategies supported:
-- **Test command**: `npm test`, `pytest`, `make test`
-- **Code inspection**: Check if a function contains specific logic
-- **Pattern search**: Find unwanted code like `console.log` or `eval()`
+Supports complex scenarios: API calls, server startup, database queries, memory checks, etc.
 
 ### Resolve Rebase Conflicts
 ```

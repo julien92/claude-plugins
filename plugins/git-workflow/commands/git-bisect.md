@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git bisect:*), Bash(git log:*), Bash(git show:*), Bash(git status:*), Bash(git checkout:*), Bash(git rev-parse:*), Bash(git tag:*), Bash(npm:*), Bash(yarn:*), Bash(pnpm:*), Bash(make:*), Bash(cargo:*), Bash(go:*), Bash(python:*), Bash(pytest:*), Bash(jest:*), Bash(vitest:*), Bash(mvn:*), Bash(gradle:*), Read, Grep, Glob
+allowed-tools: Bash(git bisect:*), Bash(git log:*), Bash(git show:*), Bash(git status:*), Bash(git checkout:*), Bash(git rev-parse:*), Bash(git tag:*), Bash(npm:*), Bash(yarn:*), Bash(pnpm:*), Bash(make:*), Bash(cargo:*), Bash(go:*), Bash(python:*), Bash(pytest:*), Bash(jest:*), Bash(vitest:*), Bash(mvn:*), Bash(gradle:*), Bash(curl:*), Bash(node:*), Bash(bash:*), Bash(sh:*), Bash(chmod:*), Bash(cat:*), Bash(rm:*), Bash(kill:*), Bash(lsof:*), Bash(sleep:*), Bash(timeout:*), Read, Grep, Glob, Write
 description: Find the commit that introduced a bug using AI-powered binary search
 argument-hint: "[bad-commit] [good-commit]"
 ---
@@ -13,53 +13,50 @@ argument-hint: "[bad-commit] [good-commit]"
 
 ## Your task
 
-Help the user find the commit that introduced a bug using `git bisect`. **You will test each commit yourself** by reading code, running tests, or executing verification commands.
+Help the user find the commit that introduced a bug using `git bisect`. **You will test each commit yourself** by creating test scripts, running commands, calling APIs, or inspecting code.
 
 ### Step 1: Understand the bug
 
 Ask the user:
 1. **What's the bug?** - Detailed description of the issue
-2. **How can you verify it?** - Ask for ONE of these:
-   - A test command that fails when bug is present (e.g., `npm test -- --grep "login"`)
-   - A file + condition to check (e.g., "function X should not call Y")
-   - A code pattern that shouldn't exist (e.g., "there should be no `eval()` in auth.js")
-   - A runtime check (e.g., "the server should return 200 on /health")
+2. **How to reproduce it?** - Get the complete reproduction scenario:
+   - What commands to run?
+   - What API endpoints to call?
+   - What input data triggers the bug?
+   - What's the expected vs actual behavior?
 
 3. **Bad commit** - Where the bug exists (default: HEAD)
 4. **Good commit** - Where the bug didn't exist (suggest recent tags or commits)
 
-### Step 2: Define your test strategy
+### Step 2: Create your test script
 
-Based on user input, define how YOU will test each commit:
+Based on the reproduction scenario, **create a temporary test script** at `/tmp/bisect-test.sh` that:
+- Returns exit code 0 if bug is **NOT present** (good)
+- Returns exit code 1 if bug **IS present** (bad)
+- Returns exit code 125 if **cannot test** (skip)
 
-**Strategy A: Test Command**
-```
-I'll run: <command>
-- Exit 0 (pass) → commit is GOOD
-- Exit non-zero (fail) → commit is BAD
-```
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh - Auto-generated bisect test
 
-**Strategy B: Code Inspection**
-```
-I'll check: <file(s)>
-- Condition: <what to look for>
-- If condition met → commit is BAD
-- If condition not met → commit is GOOD
-```
+# Setup (install deps, build, start server, etc.)
+<setup commands>
 
-**Strategy C: Pattern Search**
-```
-I'll search for: <pattern>
-- Found → commit is BAD
-- Not found → commit is GOOD
+# Test the bug
+<test commands>
+
+# Cleanup
+<cleanup commands>
+
+# Exit based on result
 ```
 
-**Strategy D: Combined**
-```
-I'll run <command> AND check <file> for <condition>
+Make the script executable:
+```bash
+chmod +x /tmp/bisect-test.sh
 ```
 
-Confirm the strategy with the user before starting.
+**Always show the script to the user and ask for confirmation before starting.**
 
 ### Step 3: Start bisect
 
@@ -73,7 +70,7 @@ Note the total number of commits and estimated steps.
 
 ### Step 4: Automated testing loop
 
-For each commit git checks out, **YOU test it**:
+For each commit git checks out, **run your test script**:
 
 1. **Show progress**:
 ```
@@ -84,28 +81,28 @@ For each commit git checks out, **YOU test it**:
 👤 Author: <author> (<relative date>)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🧪 Testing...
+🧪 Running test script...
 ```
 
-2. **Execute your test strategy**:
-   - Run the test command, OR
-   - Read the file(s) and check the condition, OR
-   - Search for the pattern
-
-3. **Show result and reasoning**:
+2. **Execute the test**:
+```bash
+/tmp/bisect-test.sh
 ```
-✅ GOOD - <brief explanation>
-   → Bug not present: <why>
+
+3. **Show result and output**:
+```
+✅ GOOD (exit 0) - Bug not present
+   → <relevant output snippet>
 ```
 or
 ```
-❌ BAD - <brief explanation>
-   → Bug present: <why>
+❌ BAD (exit 1) - Bug is present
+   → <relevant output snippet>
 ```
 or
 ```
-⏭️ SKIP - <brief explanation>
-   → Cannot test: <why>
+⏭️ SKIP (exit 125) - Cannot test
+   → <reason from script>
 ```
 
 4. **Mark the commit**:
@@ -154,60 +151,251 @@ Ask the user:
 
 ```bash
 git bisect reset
+rm -f /tmp/bisect-test.sh
 ```
 
-Return to original branch.
+Return to original branch and remove temporary files.
 
 ---
 
-## Test Strategy Examples
+## Test Script Examples
 
-### Example 1: Unit test failure
-```
-User: "The login test started failing"
-Strategy: Run `npm test -- --grep "login"`
-- Pass → GOOD
-- Fail → BAD
+### Example 1: API endpoint returns wrong status code
+
+**Bug:** "POST /api/users returns 500 instead of 201"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+# Setup: install deps and start server
+npm install --silent 2>/dev/null
+npm run build --silent 2>/dev/null
+npm start &>/dev/null &
+SERVER_PID=$!
+sleep 3
+
+# Test: check API response
+STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+  -X POST http://localhost:3000/api/users \
+  -H "Content-Type: application/json" \
+  -d '{"name": "test", "email": "test@example.com"}')
+
+# Cleanup
+kill $SERVER_PID 2>/dev/null
+
+# Evaluate
+if [ "$STATUS" = "201" ]; then
+  echo "✓ API returns 201 as expected"
+  exit 0  # GOOD
+elif [ "$STATUS" = "500" ]; then
+  echo "✗ API returns 500 - bug present"
+  exit 1  # BAD
+else
+  echo "? Unexpected status: $STATUS"
+  exit 125  # SKIP
+fi
 ```
 
-### Example 2: Code pattern introduced
-```
-User: "Someone added console.log in production code"
-Strategy: Search for `console\.log` in `src/`
-- Found → BAD
-- Not found → GOOD
+### Example 2: Function returns incorrect value
+
+**Bug:** "calculateTax(100) should return 20, but returns 15"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+# Create a test file
+cat > /tmp/bisect-runner.js << 'EOF'
+const { calculateTax } = require('./src/utils/tax');
+const result = calculateTax(100);
+console.log(`calculateTax(100) = ${result}`);
+process.exit(result === 20 ? 0 : 1);
+EOF
+
+# Run the test
+node /tmp/bisect-runner.js
+EXIT_CODE=$?
+
+# Cleanup
+rm /tmp/bisect-runner.js
+
+exit $EXIT_CODE
 ```
 
-### Example 3: Function behavior changed
-```
-User: "validateEmail() used to reject emails without TLD"
-Strategy: Read `src/validators.ts`, check if validateEmail rejects "user@localhost"
-- Rejects → GOOD
-- Accepts → BAD
+### Example 3: Memory leak detection
+
+**Bug:** "Server memory grows unbounded after 100 requests"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+npm install --silent 2>/dev/null
+npm start &>/dev/null &
+SERVER_PID=$!
+sleep 3
+
+# Get initial memory
+MEM_BEFORE=$(ps -o rss= -p $SERVER_PID)
+
+# Make 100 requests
+for i in {1..100}; do
+  curl -s http://localhost:3000/api/data > /dev/null
+done
+
+# Get final memory
+MEM_AFTER=$(ps -o rss= -p $SERVER_PID)
+MEM_GROWTH=$((MEM_AFTER - MEM_BEFORE))
+
+kill $SERVER_PID 2>/dev/null
+
+echo "Memory: ${MEM_BEFORE}KB → ${MEM_AFTER}KB (+${MEM_GROWTH}KB)"
+
+# Fail if memory grew more than 50MB
+if [ $MEM_GROWTH -gt 51200 ]; then
+  echo "✗ Memory leak detected"
+  exit 1  # BAD
+else
+  echo "✓ Memory stable"
+  exit 0  # GOOD
+fi
 ```
 
-### Example 4: Build breakage
-```
-User: "The TypeScript build started failing"
-Strategy: Run `npm run build`
-- Exit 0 → GOOD
-- Exit non-zero → BAD
+### Example 4: Database query regression
+
+**Bug:** "User search query takes >2s instead of <100ms"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+# Setup database and app
+docker-compose up -d db 2>/dev/null
+npm run db:seed --silent 2>/dev/null
+npm start &>/dev/null &
+SERVER_PID=$!
+sleep 5
+
+# Measure query time
+START=$(date +%s%N)
+curl -s "http://localhost:3000/api/users/search?q=john" > /dev/null
+END=$(date +%s%N)
+DURATION_MS=$(( (END - START) / 1000000 ))
+
+# Cleanup
+kill $SERVER_PID 2>/dev/null
+docker-compose down 2>/dev/null
+
+echo "Query took ${DURATION_MS}ms"
+
+if [ $DURATION_MS -lt 500 ]; then
+  echo "✓ Query is fast"
+  exit 0  # GOOD
+else
+  echo "✗ Query is slow - regression detected"
+  exit 1  # BAD
+fi
 ```
 
-### Example 5: File should exist
+### Example 5: CLI output changed
+
+**Bug:** "The --version flag shows 'undefined' instead of version number"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+npm install --silent 2>/dev/null
+OUTPUT=$(npm run cli -- --version 2>&1)
+
+echo "Output: $OUTPUT"
+
+if echo "$OUTPUT" | grep -qE '^[0-9]+\.[0-9]+\.[0-9]+$'; then
+  echo "✓ Version format correct"
+  exit 0  # GOOD
+elif echo "$OUTPUT" | grep -q 'undefined'; then
+  echo "✗ Shows 'undefined'"
+  exit 1  # BAD
+else
+  echo "? Unexpected output"
+  exit 125  # SKIP
+fi
 ```
-User: "The migration file got deleted somehow"
-Strategy: Check if `db/migrations/001_init.sql` exists
-- Exists → GOOD
-- Missing → BAD
+
+### Example 6: React component rendering bug
+
+**Bug:** "Login button is disabled even when form is valid"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+npm install --silent 2>/dev/null
+npm run build --silent 2>/dev/null
+
+# Run component test
+npm test -- --testPathPattern="Login" --silent 2>&1
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 0 ]; then
+  echo "✓ Login tests pass"
+  exit 0  # GOOD
+else
+  echo "✗ Login tests fail"
+  exit 1  # BAD
+fi
+```
+
+### Example 7: Python import error
+
+**Bug:** "Importing the auth module raises ImportError"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+# Try to import the module
+python3 -c "from app.auth import authenticate; print('Import OK')" 2>&1
+EXIT_CODE=$?
+
+if [ $EXIT_CODE -eq 0 ]; then
+  echo "✓ Import successful"
+  exit 0  # GOOD
+else
+  echo "✗ Import failed"
+  exit 1  # BAD
+fi
+```
+
+### Example 8: Code pattern that shouldn't exist
+
+**Bug:** "Someone committed AWS credentials in the code"
+
+```bash
+#!/bin/bash
+# /tmp/bisect-test.sh
+
+# Search for AWS access key pattern
+if grep -rE 'AKIA[0-9A-Z]{16}' --include="*.ts" --include="*.js" src/; then
+  echo "✗ AWS credentials found in code!"
+  exit 1  # BAD
+else
+  echo "✓ No credentials found"
+  exit 0  # GOOD
+fi
 ```
 
 ---
 
 ## Important notes
 
-- Always test commits yourself - don't ask the user to test
-- If a commit can't be tested (missing dependencies, won't compile), use `git bisect skip`
+- **Always create a test script** - even for simple checks, a script ensures consistency
+- **Show the script to user** - get confirmation before running on potentially many commits
+- **Handle setup/cleanup** - ensure servers are started/stopped, temp files removed
+- **Use timeouts** - prevent hanging on broken builds: `timeout 60 npm test`
+- **Exit codes matter**: 0=good, 1=bad, 125=skip (can't test this commit)
+- If a commit can't be tested (missing dependencies, won't compile), return exit 125
 - Keep the user informed of progress but don't wait for input between tests
-- If test strategy is ambiguous, clarify with user before starting
 - For very long bisects (>10 steps), give periodic summaries
+- **Clean up at the end** - remove `/tmp/bisect-test.sh` and any other temp files
