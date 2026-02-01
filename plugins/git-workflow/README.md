@@ -39,17 +39,17 @@ Provides conventions for writing git commit messages with Gitmoji emojis.
 
 ## Commands
 
-| Command | Description |
-|---------|-------------|
-| `/git-bisect` | Find the commit that introduced a bug using AI-powered binary search |
-| `/git-changelog` | Generate changelog between two tags |
-| `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
-| `/git-commit` | Analyze changes and generate meaningful commits |
-| `/git-commit-push` | Commit with Gitmoji conventions then push to remote |
-| `/git-commit-push-pr` | Commit + push + create PR targeting parent branch |
-| `/git-help-rebase` | Interactive assistant to resolve rebase conflicts |
-| `/git-pr-review` | AI-assisted PR review with inline comments |
-| `/git-why` | AI-powered git archaeology — understand WHY code exists |
+| Command | Description | Workflow |
+|---------|-------------|----------|
+| `/git-bisect` | Find the commit that introduced a bug using AI-powered binary search | [view](./docs/workflows/git-bisect.md) |
+| `/git-changelog` | Generate changelog between two tags | [view](./docs/workflows/git-changelog.md) |
+| `/git-clean-branches` | Delete merged branches and branches with deleted remotes | [view](./docs/workflows/git-clean-branches.md) |
+| `/git-commit` | Analyze changes and generate meaningful commits | [view](./docs/workflows/git-commit.md) |
+| `/git-commit-push` | Commit with Gitmoji conventions then push to remote | [view](./docs/workflows/git-commit-push.md) |
+| `/git-commit-push-pr` | Commit + push + create PR targeting parent branch | [view](./docs/workflows/git-commit-push-pr.md) |
+| `/git-help-rebase` | Interactive assistant to resolve rebase conflicts | [view](./docs/workflows/git-help-rebase.md) |
+| `/git-pr-review` | AI-assisted PR review with inline comments | [view](./docs/workflows/git-pr-review.md) |
+| `/git-why` | AI-powered git archaeology — understand WHY code exists | [view](./docs/workflows/git-why.md) |
 
 ## Usage Examples
 
