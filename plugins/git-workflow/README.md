@@ -41,13 +41,14 @@ Provides conventions for writing git commit messages with Gitmoji emojis.
 
 | Command | Description |
 |---------|-------------|
+| `/git-bisect` | Find the commit that introduced a bug using binary search |
+| `/git-changelog` | Generate changelog between two tags |
+| `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
 | `/git-commit` | Analyze changes and generate meaningful commits |
 | `/git-commit-push` | Commit with Gitmoji conventions then push to remote |
 | `/git-commit-push-pr` | Commit + push + create PR targeting parent branch |
-| `/git-changelog` | Generate changelog between two tags |
 | `/git-help-rebase` | Interactive assistant to resolve rebase conflicts |
 | `/git-pr-review` | AI-assisted PR review with inline comments |
-| `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
 | `/git-why` | AI-powered git archaeology — understand WHY code exists |
 
 ## Usage Examples
@@ -74,6 +75,28 @@ Commits your changes, pushes to remote, and creates a PR on GitHub/GitLab/Bitbuc
 /git-changelog v1.0.0..v1.1.0
 ```
 Generates a grouped changelog from commits between two versions.
+
+### Find Bug with Bisect
+```
+/git-bisect
+```
+Claude guides you through a binary search to find the commit that introduced a bug:
+
+```
+🔍 Bisect Progress
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 Current commit: a1b2c3d
+📝 Message: Add user validation
+👤 Author: Alice (2 weeks ago)
+📊 Remaining: ~4 steps (between 16 commits)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🐛 Bug to find: Login fails with special characters
+
+Test this commit and tell me: "good", "bad", or "skip"
+```
+
+Supports automated mode with `git bisect run <test-command>`.
 
 ### Resolve Rebase Conflicts
 ```
