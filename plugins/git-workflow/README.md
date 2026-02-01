@@ -4,9 +4,9 @@ Leverage AI in your daily Git workflows. Compatible with all major providers: Gi
 
 ## Requirements
 
-| Tool | Required for | Install |
+| Tool | Git provider | Install |
 |------|--------------|---------|
-| **git** | All commands | — |
+| **git** | All | — |
 | **gh** | GitHub | [cli.github.com](https://cli.github.com/) |
 | **glab** | GitLab | [gitlab.com/gitlab-org/cli](https://gitlab.com/gitlab-org/cli) |
 | **curl** + **jq** | Bitbucket | (no official CLI) |
