@@ -1,6 +1,6 @@
 ---
-allowed-tools: Bash(git bisect:*), Bash(git log:*), Bash(git show:*), Bash(git status:*), Bash(git checkout:*), Read, Grep, Glob
-description: Find the commit that introduced a bug using binary search
+allowed-tools: Bash(git bisect:*), Bash(git log:*), Bash(git show:*), Bash(git status:*), Bash(git checkout:*), Bash(git rev-parse:*), Bash(git tag:*), Bash(npm:*), Bash(yarn:*), Bash(pnpm:*), Bash(make:*), Bash(cargo:*), Bash(go:*), Bash(python:*), Bash(pytest:*), Bash(jest:*), Bash(vitest:*), Bash(mvn:*), Bash(gradle:*), Read, Grep, Glob
+description: Find the commit that introduced a bug using AI-powered binary search
 argument-hint: "[bad-commit] [good-commit]"
 ---
 
@@ -9,144 +9,205 @@ argument-hint: "[bad-commit] [good-commit]"
 - Current branch: !`git branch --show-current`
 - Current status: !`git status --short`
 - Recent commits: !`git log --oneline -20`
+- Available tags: !`git tag --sort=-version:refname | head -10`
 
 ## Your task
 
-Help the user find the commit that introduced a bug using `git bisect`.
+Help the user find the commit that introduced a bug using `git bisect`. **You will test each commit yourself** by reading code, running tests, or executing verification commands.
 
-Git bisect performs a binary search through commit history to efficiently locate the first bad commit.
-
-### Step 1: Check current state
-
-If already in a bisect session:
-```bash
-git bisect log
-```
-
-If in a bisect, show current state and ask user to test. Otherwise, start a new session.
-
-### Step 2: Start bisect session
+### Step 1: Understand the bug
 
 Ask the user:
-1. **What's the bug?** (description of the issue to look for)
-2. **Bad commit** - A commit where the bug exists (default: HEAD)
-3. **Good commit** - A commit where the bug doesn't exist (show recent tags/commits to help)
+1. **What's the bug?** - Detailed description of the issue
+2. **How can you verify it?** - Ask for ONE of these:
+   - A test command that fails when bug is present (e.g., `npm test -- --grep "login"`)
+   - A file + condition to check (e.g., "function X should not call Y")
+   - A code pattern that shouldn't exist (e.g., "there should be no `eval()` in auth.js")
+   - A runtime check (e.g., "the server should return 200 on /health")
 
-Start the session:
+3. **Bad commit** - Where the bug exists (default: HEAD)
+4. **Good commit** - Where the bug didn't exist (suggest recent tags or commits)
+
+### Step 2: Define your test strategy
+
+Based on user input, define how YOU will test each commit:
+
+**Strategy A: Test Command**
+```
+I'll run: <command>
+- Exit 0 (pass) → commit is GOOD
+- Exit non-zero (fail) → commit is BAD
+```
+
+**Strategy B: Code Inspection**
+```
+I'll check: <file(s)>
+- Condition: <what to look for>
+- If condition met → commit is BAD
+- If condition not met → commit is GOOD
+```
+
+**Strategy C: Pattern Search**
+```
+I'll search for: <pattern>
+- Found → commit is BAD
+- Not found → commit is GOOD
+```
+
+**Strategy D: Combined**
+```
+I'll run <command> AND check <file> for <condition>
+```
+
+Confirm the strategy with the user before starting.
+
+### Step 3: Start bisect
+
 ```bash
 git bisect start
 git bisect bad <bad-commit>
 git bisect good <good-commit>
 ```
 
-Git will checkout a commit in the middle for testing.
+Note the total number of commits and estimated steps.
 
-### Step 3: Guide the testing process
+### Step 4: Automated testing loop
 
-For each commit git checks out:
+For each commit git checks out, **YOU test it**:
 
-1. **Show context**:
+1. **Show progress**:
 ```
-🔍 Bisect Progress
+🔍 Bisect Progress [Step N/~M]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 Current commit: <hash>
+📍 Commit: <short-hash>
 📝 Message: <commit message>
-👤 Author: <author> (<date>)
-📊 Remaining: ~<N> steps (between <X> commits)
+👤 Author: <author> (<relative date>)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🐛 Bug to find: <user's bug description>
-
-Test this commit and tell me:
-- "good" → bug is NOT present
-- "bad" → bug IS present
-- "skip" → can't test this commit
-- "run <command>" → I'll run a test command for you
-- "show <file>" → I'll show you a file
-- "abort" → cancel bisect
+🧪 Testing...
 ```
 
-2. **Help the user test**:
-   - If they need to run a test: execute it and show results
-   - If they need to see code: read relevant files
-   - If they need to build: help with build commands
+2. **Execute your test strategy**:
+   - Run the test command, OR
+   - Read the file(s) and check the condition, OR
+   - Search for the pattern
 
-3. **Record the result**:
+3. **Show result and reasoning**:
+```
+✅ GOOD - <brief explanation>
+   → Bug not present: <why>
+```
+or
+```
+❌ BAD - <brief explanation>
+   → Bug present: <why>
+```
+or
+```
+⏭️ SKIP - <brief explanation>
+   → Cannot test: <why>
+```
+
+4. **Mark the commit**:
 ```bash
-git bisect good  # or
-git bisect bad   # or
-git bisect skip
+git bisect good   # or bad, or skip
 ```
 
-4. **Repeat** until git finds the culprit
+5. **Repeat** until bisect completes
 
-### Step 4: Show the result
+### Step 5: Present the culprit
 
-When bisect completes:
+When found:
 
-```bash
-git bisect log
 ```
-
-Present the findings:
-```
-🎯 Found the bad commit!
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🎯 Found the culprit!
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 📍 Commit: <full-hash>
 📝 Message: <commit message>
 👤 Author: <author>
 📅 Date: <date>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 📄 Files changed:
-<list of files>
+<list files with +/- lines>
 
-💡 This commit likely introduced the bug.
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔬 Analysis:
+<Explain what this commit changed that likely introduced the bug>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Show the commit details:
+Show the diff:
 ```bash
-git show <bad-commit> --stat
+git show <culprit-hash> --stat
 ```
 
-Ask user:
-- "details" → show full diff of the bad commit
-- "blame <file>" → show who changed specific lines
-- "revert" → help revert the bad commit
-- "done" → end bisect and return to original branch
+### Step 6: Suggest next steps
 
-### Step 5: Clean up
+Ask the user:
+- **"show diff"** → Full diff of the bad commit
+- **"explain"** → Detailed analysis of what went wrong
+- **"fix"** → Help create a fix
+- **"revert"** → Help revert the commit
+- **"done"** → End bisect
+
+### Step 7: Clean up
 
 ```bash
 git bisect reset
 ```
 
-This returns to the original branch.
+Return to original branch.
 
-### Automated mode
+---
 
-If user provides a test command (e.g., `npm test`, `make test`):
+## Test Strategy Examples
 
-```bash
-git bisect run <test-command>
+### Example 1: Unit test failure
+```
+User: "The login test started failing"
+Strategy: Run `npm test -- --grep "login"`
+- Pass → GOOD
+- Fail → BAD
 ```
 
-The command should exit with:
-- 0 = good (test passes)
-- 1-124, 126-127 = bad (test fails)
-- 125 = skip (can't test)
-
-Example:
-```bash
-git bisect start HEAD v1.0.0
-git bisect run npm test
+### Example 2: Code pattern introduced
+```
+User: "Someone added console.log in production code"
+Strategy: Search for `console\.log` in `src/`
+- Found → BAD
+- Not found → GOOD
 ```
 
-### Tips to share with user
+### Example 3: Function behavior changed
+```
+User: "validateEmail() used to reject emails without TLD"
+Strategy: Read `src/validators.ts`, check if validateEmail rejects "user@localhost"
+- Rejects → GOOD
+- Accepts → BAD
+```
 
-- **Finding a good commit**: Use `git log --oneline` or look at tags with `git tag`
-- **Can't test?**: Use `git bisect skip` to skip untestable commits
-- **Wrong answer?**: Use `git bisect log` to review, then `git bisect reset` and start over
-- **Save session**: `git bisect log > bisect.log` then restore with `git bisect replay bisect.log`
+### Example 4: Build breakage
+```
+User: "The TypeScript build started failing"
+Strategy: Run `npm run build`
+- Exit 0 → GOOD
+- Exit non-zero → BAD
+```
 
-Be conversational and educational. Help the user understand the binary search process and guide them through testing each commit.
+### Example 5: File should exist
+```
+User: "The migration file got deleted somehow"
+Strategy: Check if `db/migrations/001_init.sql` exists
+- Exists → GOOD
+- Missing → BAD
+```
+
+---
+
+## Important notes
+
+- Always test commits yourself - don't ask the user to test
+- If a commit can't be tested (missing dependencies, won't compile), use `git bisect skip`
+- Keep the user informed of progress but don't wait for input between tests
+- If test strategy is ambiguous, clarify with user before starting
+- For very long bisects (>10 steps), give periodic summaries
