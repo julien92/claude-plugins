@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(PROVIDER=*), Bash(eval:*)
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(eval:*)
 description: Commit, push and create a Pull Request targeting the parent branch (GitHub/GitLab/Bitbucket)
 disable-model-invocation: true
 ---
@@ -11,6 +11,7 @@ disable-model-invocation: true
 - Current branch: !`git branch --show-current`
 - Remote URL: !`git remote get-url origin`
 - Remote branches: !`git branch -r`
+- Git provider: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/detect-provider.sh`
 
 ## Your task
 
@@ -21,14 +22,11 @@ Based on the above changes:
 3. Push the branch to origin
 4. Create a pull request targeting the parent branch
 
-## Detect provider
-
-Use the shared detection script:
-```bash
-PROVIDER=$(bash ${CLAUDE_PLUGIN_ROOT}/scripts/detect-provider.sh)
-```
-
-Returns: `github`, `gitlab`, `bitbucket`, or `unknown`
+Based on the **Git provider** shown in Context:
+- `github` → use `gh pr create`
+- `gitlab` → use `glab mr create`
+- `bitbucket` → use curl API (see Bitbucket PR section)
+- `unknown` → ask user which provider to use
 
 For self-hosted instances, set `$GIT_PROVIDER` env var.
 
