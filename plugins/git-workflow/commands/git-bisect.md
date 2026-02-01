@@ -40,7 +40,28 @@ git bisect run ./bisect-test.sh
 
 ### 4. Show result
 
-Display the culprit commit with `git show` and explain what likely caused the bug.
+Display the culprit commit with this format:
+
+```
+🎯 Culprit Found
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 Commit:  <short-hash> (<full-hash>)
+📝 Message: <commit message>
+👤 Author:  <name> <<email>>
+📅 Date:    <date> (<relative>)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📁 Files changed:
+   <list with +/- lines>
+
+🔬 Analysis:
+   <explain what likely caused the bug based on the diff>
+
+🔗 <link to commit on GitHub/GitLab>
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+```
+
+Use `git show <hash> --stat` and `git remote get-url origin` to gather info.
 
 ### 5. Propose fix
 
