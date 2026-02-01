@@ -1,6 +1,6 @@
 ---
 name: commit-message
-description: This skill provides conventions for writing git commit messages with Gitmoji emojis. This skill should be used when the user asks to "commit changes", "create a commit", "push my code", or any git commit-related task.
+description: This skill provides conventions for writing git commit messages with Gitmoji emojis. Use when the user asks to "commit changes", "create a commit", "push my code", or any git commit-related task.
 ---
 
 # Gitmoji Commit Conventions
