@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git checkout -b:*), Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git push:*), Bash(git commit:*), Bash(git remote:*), Bash(git branch:*), Bash(git log:*), Bash(git ls-remote:*), Bash(git merge-base:*), Bash(git rev-parse:*), Bash(git reflog:*), Bash(gh pr create:*), Bash(glab mr create:*), Bash(curl:*), Read
+allowed-tools: Bash(git checkout -b:*), Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git push:*), Bash(git commit:*), Bash(git remote:*), Bash(git branch:*), Bash(git log:*), Bash(git ls-remote:*), Bash(git merge-base:*), Bash(git rev-parse:*), Bash(git reflog:*), Bash(gh pr create:*), Bash(glab mr create:*), Bash(curl:*)
 description: Commit, push and create a Pull Request targeting the parent branch (GitHub/GitLab/Bitbucket)
 disable-model-invocation: true
 ---
@@ -16,11 +16,10 @@ disable-model-invocation: true
 
 Based on the above changes:
 
-1. Read the Gitmoji conventions from `commands/_shared/gitmoji-conventions.md` (relative to the plugin root)
-2. Determine the parent branch and create a new branch if needed (see below)
-3. Create a single commit following the Gitmoji conventions
-4. Push the branch to origin
-5. Create a pull request targeting the parent branch
+1. Determine the parent branch and create a new branch if needed (see below)
+2. Create a single commit following the Gitmoji conventions (see GITMOJI_CONVENTIONS skill)
+3. Push the branch to origin
+4. Create a pull request targeting the parent branch
 
 ## Detect provider
 
