@@ -1,6 +1,7 @@
 ---
 allowed-tools: Bash(git add:*), Bash(git status:*), Bash(git commit:*)
 description: Create a git commit with Gitmoji
+disable-model-invocation: true
 ---
 
 ## Context
