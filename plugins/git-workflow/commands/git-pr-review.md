@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(jq:*), Bash(bash:*), Bash(eval:*), Read
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(jq:*), Bash(PROVIDER=*), Bash(eval:*), Read
 description: Review any Pull Request with AI-assisted analysis and inline comments (GitHub/GitLab/Bitbucket)
 argument-hint: "[PR number]"
 disable-model-invocation: true
