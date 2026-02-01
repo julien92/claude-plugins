@@ -16,7 +16,7 @@ disable-model-invocation: true
 Based on the above changes:
 
 1. Stage all changes if nothing is staged
-2. Create a single commit following the Gitmoji conventions (see GITMOJI_CONVENTIONS skill)
+2. Create a single commit following the Gitmoji conventions (see gitmoji-conventions skill)
 3. Push to remote
 
 You have the capability to call multiple tools in a single response. You MUST do all of the above in a single message. Do not use any other tools or do anything else.

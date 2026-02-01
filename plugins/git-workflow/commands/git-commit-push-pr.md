@@ -17,7 +17,7 @@ disable-model-invocation: true
 Based on the above changes:
 
 1. Determine the parent branch and create a new branch if needed (see below)
-2. Create a single commit following the Gitmoji conventions (see GITMOJI_CONVENTIONS skill)
+2. Create a single commit following the Gitmoji conventions (see gitmoji-conventions skill)
 3. Push the branch to origin
 4. Create a pull request targeting the parent branch
 
