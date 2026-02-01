@@ -85,9 +85,19 @@ Then, use the Write tool to create the file at this exact path:
 /home/user/myproject/.claude/jc-marketplace/git-workflow/cache.md
 ```
 
-### Step 4: Continue
+### Step 4: Verify cache was created correctly
 
-After creating the cache, continue with the original command.
+After writing the file, verify it exists at the correct path:
+
+```bash
+cat .claude/jc-marketplace/git-workflow/cache.md
+```
+
+If this command fails or shows a different file, you created the cache in the wrong location. Delete the wrong file and retry Step 3.
+
+### Step 5: Continue
+
+After verification succeeds, continue with the original command.
 
 ## Refreshing the cache
 
