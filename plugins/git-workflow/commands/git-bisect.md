@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git:*), Bash(chmod:*), Bash(rm:*), Bash(./bisect-test.sh), Read, Write
+allowed-tools: Bash(git:*), Bash(chmod +x ./bisect-test.sh), Bash(rm ./bisect-test.sh), Bash(./bisect-test.sh), Read, Write
 description: Find the commit that introduced a bug using AI-powered binary search
 argument-hint: "[bad-commit] [good-commit]"
 ---
