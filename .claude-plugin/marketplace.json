@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "julien92-plugins",
+  "name": "cc-marketplace",
   "version": "1.0.0",
   "description": "Enterprise-grade AI-powered plugins for development workflows",
   "owner": {
@@ -8,8 +8,8 @@
     "email": "julien.cornille92@gmail.com"
   },
   "metadata": {
-    "repository": "https://github.com/julien92/claude-plugins",
-    "homepage": "https://github.com/julien92/claude-plugins"
+    "repository": "https://github.com/julien92/cc-marketplace",
+    "homepage": "https://github.com/julien92/cc-marketplace"
   },
   "plugins": [
     {
@@ -21,7 +21,7 @@
         "email": "julien.cornille92@gmail.com"
       },
       "source": "./plugins/git-workflow",
-      "repository": "https://github.com/julien92/claude-plugins",
+      "repository": "https://github.com/julien92/cc-marketplace",
       "license": "MIT",
       "keywords": [
         "git",
