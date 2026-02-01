@@ -2,22 +2,59 @@
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "julien92-plugins",
   "version": "1.0.0",
-  "description": "Collection of Claude Code plugins for Git workflows and development",
+  "description": "Enterprise-grade AI-powered plugins for development workflows",
   "owner": {
     "name": "Julien Cornille",
     "email": "julien.cornille92@gmail.com"
   },
+  "metadata": {
+    "repository": "https://github.com/julien92/claude-plugins",
+    "homepage": "https://github.com/julien92/claude-plugins"
+  },
   "plugins": [
     {
       "name": "git-workflow",
-      "description": "AI-powered Git workflows: smart commits, PR creation, changelogs",
+      "description": "Enterprise-grade AI-powered Git workflows for GitHub, GitLab, and Bitbucket",
       "version": "0.2.0",
       "author": {
         "name": "Julien Cornille",
         "email": "julien.cornille92@gmail.com"
       },
       "source": "./plugins/git-workflow",
-      "category": "productivity"
+      "repository": "https://github.com/julien92/claude-plugins",
+      "bugs": {
+        "url": "https://github.com/julien92/claude-plugins/issues"
+      },
+      "license": "MIT",
+      "keywords": [
+        "git",
+        "workflow",
+        "enterprise",
+        "pull-request",
+        "code-review",
+        "github",
+        "gitlab",
+        "bitbucket"
+      ],
+      "category": "productivity",
+      "tags": [
+        "git",
+        "automation",
+        "enterprise",
+        "ai-powered",
+        "multi-provider"
+      ],
+      "features": [
+        "AI-powered Git workflow automation",
+        "Multi-provider support (GitHub, GitLab, Bitbucket)",
+        "Intelligent code review with inline comments",
+        "Automated commit message generation",
+        "Release and changelog management"
+      ],
+      "requirements": {
+        "claudeCode": ">=2.0.0",
+        "git": ">=2.0.0"
+      }
     }
   ]
 }
