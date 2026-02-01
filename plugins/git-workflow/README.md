@@ -87,9 +87,11 @@ You: "The login test started failing"
 Claude: I'll create bisect-test.sh and run it on each commit.
 
 🎯 Found: d4e5f6g "Refactor auth middleware"
+
+Claude: Want me to fix this and create a PR?
 ```
 
-The script returns 0 (good) or 1 (bad) — can be any command: `npm test`, `curl`, `grep`, etc.
+After finding the culprit, Claude can implement a fix and open a PR automatically.
 
 ### Resolve Rebase Conflicts
 ```

@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git:*), Bash(chmod +x ./bisect-test.sh), Bash(rm ./bisect-test.sh), Bash(./bisect-test.sh), Read, Write
+allowed-tools: Bash(git:*), Bash(chmod +x ./bisect-test.sh), Bash(rm ./bisect-test.sh), Bash(./bisect-test.sh), Bash(gh pr create:*), Bash(glab mr create:*), Read, Write, Edit
 description: Find the commit that introduced a bug using AI-powered binary search
 argument-hint: "[bad-commit] [good-commit]"
 ---
@@ -42,7 +42,19 @@ git bisect run ./bisect-test.sh
 
 Display the culprit commit with `git show` and explain what likely caused the bug.
 
-### 5. Cleanup
+### 5. Propose fix
+
+Ask user: "Do you want me to fix this bug and create a PR?"
+
+If yes:
+1. Reset bisect and cleanup: `git bisect reset && rm ./bisect-test.sh`
+2. Create fix branch: `git checkout -b fix/<short-description>`
+3. Implement the fix
+4. Run the test script to verify fix works
+5. Commit with message: `🐛 Fix <description>`
+6. Push and create PR targeting the original branch
+
+### 6. Cleanup (if user declined fix)
 
 ```bash
 git bisect reset
