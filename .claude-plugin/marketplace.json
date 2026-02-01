@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
-  "name": "claude-code-marketplace",
+  "name": "jc-marketplace",
   "version": "1.0.0",
   "description": "Enterprise-grade AI-powered plugins for development workflows",
   "owner": {

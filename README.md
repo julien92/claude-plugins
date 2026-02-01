@@ -11,12 +11,12 @@ Productivity plugins for [Claude Code](https://github.com/anthropics/claude-code
 claude plugin marketplace add julien92/claude-code-marketplace
 
 # 2. Install a plugin
-claude plugin install git-workflow@claude-code-marketplace
+claude plugin install git-workflow@jc-marketplace
 ```
 
 Or use the community CLI (one command):
 ```bash
-npx claude-plugins install git-workflow@claude-code-marketplace
+npx claude-plugins install git-workflow@jc-marketplace
 ```
 
 ## 📦 Available Plugins
