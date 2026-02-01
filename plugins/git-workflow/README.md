@@ -1,14 +1,15 @@
 # git-workflow
 
-A set of workflows that leverage AI to help developers in their daily tasks, powered by Git.
+Leverage AI in your daily Git workflows. Compatible with all major providers: GitHub, GitLab, Bitbucket (cloud & self-hosted).
 
 ## Requirements
 
-- **git** — Version control
-- **jq** — JSON parser ([jqlang.github.io/jq](https://jqlang.github.io/jq/)) — for Bitbucket
-- **curl** — HTTP client — for Bitbucket
-- **gh** — GitHub CLI ([cli.github.com](https://cli.github.com/)) — for GitHub
-- **glab** — GitLab CLI ([gitlab.com/gitlab-org/cli](https://gitlab.com/gitlab-org/cli)) — for GitLab
+| Tool | Required for | Install |
+|------|--------------|---------|
+| **git** | All commands | — |
+| **gh** | GitHub | [cli.github.com](https://cli.github.com/) |
+| **glab** | GitLab | [gitlab.com/gitlab-org/cli](https://gitlab.com/gitlab-org/cli) |
+| **curl** + **jq** | Bitbucket | (no official CLI) |
 
 ## Installation
 
