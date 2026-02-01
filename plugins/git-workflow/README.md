@@ -23,10 +23,10 @@ claude plugin install git-workflow@julien92-plugins
 |---------|-------------|
 | `/git-commit` | Analyze changes and generate meaningful commits |
 | `/git-commit-push` | Commit with Gitmoji + push to remote |
-| `/git-commit-push-pr` | Commit + push + create PR targeting parent branch (GitHub/GitLab/Bitbucket) |
+| `/git-commit-push-pr` | Commit + push + create PR targeting parent branch |
 | `/git-changelog` | Generate changelog between two tags |
 | `/git-help-rebase` | Interactive assistant to resolve rebase conflicts |
-| `/git-pr-review` | AI-assisted PR review with inline comments (GitHub/GitLab/Bitbucket) |
+| `/git-pr-review` | AI-assisted PR review with inline comments |
 | `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
 | `/git-why` | AI-powered git archaeology — understand WHY code exists |
 
