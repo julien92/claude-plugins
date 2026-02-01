@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git checkout -b:*), Bash(git add:*), Bash(git status:*), Bash(git diff:*), Bash(git push:*), Bash(git commit:*), Bash(git remote:*), Bash(git branch:*), Bash(git log:*), Bash(git ls-remote:*), Bash(git merge-base:*), Bash(git rev-parse:*), Bash(git reflog:*), Bash(gh pr create:*), Bash(glab mr create:*), Bash(curl:*)
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(bash:*), Bash(eval:*)
 description: Commit, push and create a Pull Request targeting the parent branch (GitHub/GitLab/Bitbucket)
 disable-model-invocation: true
 ---

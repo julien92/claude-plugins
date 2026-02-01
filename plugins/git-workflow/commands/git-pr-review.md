@@ -1,5 +1,5 @@
 ---
-allowed-tools: Bash(git stash:*), Bash(git checkout:*), Bash(git fetch:*), Bash(git diff:*), Bash(git log:*), Bash(git remote:*), Bash(git branch:*), Bash(git status:*), Bash(gh pr list:*), Bash(gh pr view:*), Bash(gh pr checkout:*), Bash(gh pr review:*), Bash(gh repo view:*), Bash(gh api:*), Bash(glab mr list:*), Bash(glab mr view:*), Bash(glab mr checkout:*), Bash(glab mr approve:*), Bash(glab mr note:*), Bash(glab api:*), Bash(curl:*), Bash(jq:*)
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(jq:*), Bash(bash:*), Bash(eval:*), Read
 description: Review any Pull Request with AI-assisted analysis and inline comments (GitHub/GitLab/Bitbucket)
 argument-hint: "[PR number]"
 disable-model-invocation: true
