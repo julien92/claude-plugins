@@ -41,7 +41,7 @@ Provides conventions for writing git commit messages with Gitmoji emojis.
 
 | Command | Description |
 |---------|-------------|
-| `/git-bisect` | Find the commit that introduced a bug using binary search |
+| `/git-bisect` | Find the commit that introduced a bug using AI-powered binary search |
 | `/git-changelog` | Generate changelog between two tags |
 | `/git-clean-branches` | Delete merged branches and branches with deleted remotes |
 | `/git-commit` | Analyze changes and generate meaningful commits |
@@ -80,23 +80,28 @@ Generates a grouped changelog from commits between two versions.
 ```
 /git-bisect
 ```
-Claude guides you through a binary search to find the commit that introduced a bug:
+Claude **automatically tests each commit** to find where a bug was introduced. You describe the bug and how to verify it, then Claude does the rest:
 
 ```
-🔍 Bisect Progress
+You: "The login test started failing somewhere between v1.0 and now"
+
+Claude: I'll test using `npm test -- --grep "login"`
+
+🔍 Bisect Progress [Step 3/~7]
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-📍 Current commit: a1b2c3d
+📍 Commit: a1b2c3d
 📝 Message: Add user validation
 👤 Author: Alice (2 weeks ago)
-📊 Remaining: ~4 steps (between 16 commits)
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-🐛 Bug to find: Login fails with special characters
-
-Test this commit and tell me: "good", "bad", or "skip"
+🧪 Testing... running npm test
+✅ GOOD - Tests pass, bug not present yet
 ```
 
-Supports automated mode with `git bisect run <test-command>`.
+Test strategies supported:
+- **Test command**: `npm test`, `pytest`, `make test`
+- **Code inspection**: Check if a function contains specific logic
+- **Pattern search**: Find unwanted code like `console.log` or `eval()`
 
 ### Resolve Rebase Conflicts
 ```
