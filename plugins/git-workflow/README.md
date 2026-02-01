@@ -17,12 +17,32 @@ Leverage AI in your daily Git workflows. Compatible with all major providers: Gi
 claude plugin install git-workflow@julien92-plugins
 ```
 
+## Skills
+
+Skills are automatically loaded when relevant to provide Claude with domain-specific knowledge.
+
+### commit-message
+
+Provides conventions for writing git commit messages with Gitmoji emojis.
+
+**Triggers:** "commit changes", "create a commit", "push my code", "commit and push"
+
+**Coverage:**
+- Gitmoji emoji conventions (✨ features, 🐛 bugs, 📝 docs, etc.)
+- Commit message format and structure
+- Ticket reference extraction from branch names
+
+**Resources:**
+| File | Description |
+|------|-------------|
+| `skills/commit-message/SKILL.md` | Core conventions (~60 lines) |
+
 ## Commands
 
 | Command | Description |
 |---------|-------------|
 | `/git-commit` | Analyze changes and generate meaningful commits |
-| `/git-commit-push` | Use `/git-commit` conventions then push to remote |
+| `/git-commit-push` | Commit with Gitmoji conventions then push to remote |
 | `/git-commit-push-pr` | Commit + push + create PR targeting parent branch |
 | `/git-changelog` | Generate changelog between two tags |
 | `/git-help-rebase` | Interactive assistant to resolve rebase conflicts |
