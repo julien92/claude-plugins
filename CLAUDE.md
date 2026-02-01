@@ -240,11 +240,11 @@ All Git commands must support:
 | GitHub | `gh` | `github.com` in remote |
 | GitLab | `glab` | `gitlab.com` in remote |
 | Bitbucket | `curl`+`jq` | `bitbucket.org` in remote |
-| Self-hosted | varies | `/git-setup` asks user |
+| Self-hosted | varies | `plugin-cache` skill prompts user |
 
 ### Detection Pattern
 
-Use the `/git-setup` command to detect and cache provider info in `.claude/jc-marketplace/git-workflow/cache.md`.
+Provider info is cached in `.claude/jc-marketplace/git-workflow/cache.md`. If the cache is missing, commands use the `plugin-cache` skill to detect and create it.
 
 Commands read the cache via inline bash in Context:
 ```markdown

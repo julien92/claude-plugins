@@ -55,10 +55,10 @@ gh pr list --state open --limit 20 --json number,title,author,headRefName,additi
 glab mr list --state opened --per-page 20
 ```
 
-**Bitbucket:**
+**Bitbucket:** (replace `<bitbucket_workspace>` and `<bitbucket_repo>` with values from Provider cache)
 ```bash
 curl -sN -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-  "https://api.bitbucket.org/2.0/repositories/${BB_WORKSPACE}/${BB_REPO}/pullrequests?state=OPEN&pagelen=20" \
+  "https://api.bitbucket.org/2.0/repositories/<bitbucket_workspace>/<bitbucket_repo>/pullrequests?state=OPEN&pagelen=20" \
   > /tmp/bitbucket_prs.json && \
   jq -r '.values[] | "PR #\(.id) | \(.source.branch.name) -> \(.destination.branch.name) | \(.title) | by \(.author.display_name)"' /tmp/bitbucket_prs.json
 ```
@@ -103,10 +103,10 @@ START_SHA=$(glab api projects/:fullpath/merge_requests/<mr-iid> -q .diff_refs.st
 BASE_BRANCH=$(glab api projects/:fullpath/merge_requests/<mr-iid> -q .target_branch)
 ```
 
-**Bitbucket:**
+**Bitbucket:** (use workspace/repo from Provider cache)
 ```bash
 curl -sN -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-  "https://api.bitbucket.org/2.0/repositories/${BB_WORKSPACE}/${BB_REPO}/pullrequests/{pr_id}" > /tmp/pr_info.json
+  "https://api.bitbucket.org/2.0/repositories/<bitbucket_workspace>/<bitbucket_repo>/pullrequests/{pr_id}" > /tmp/pr_info.json
 BASE_BRANCH=$(jq -r '.destination.branch.name' /tmp/pr_info.json)
 ```
 
@@ -207,10 +207,10 @@ glab api projects/$PROJECT_ID/merge_requests/<mr-iid>/discussions -X POST \
 
 For deleted lines, use `old_path` and `old_line` instead.
 
-**Bitbucket:**
+**Bitbucket:** (use workspace/repo from Provider cache)
 ```bash
 curl -X POST -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-  "https://api.bitbucket.org/2.0/repositories/${BB_WORKSPACE}/${BB_REPO}/pullrequests/{pr_id}/comments" \
+  "https://api.bitbucket.org/2.0/repositories/<bitbucket_workspace>/<bitbucket_repo>/pullrequests/{pr_id}/comments" \
   -H "Content-Type: application/json" \
   -d '{
     "content": {"raw": "<comment>"},
@@ -245,14 +245,14 @@ glab mr approve <mr-iid>
 glab mr note <mr-iid> --message "<summary>"
 ```
 
-**Bitbucket:**
+**Bitbucket:** (use workspace/repo from Provider cache)
 ```bash
 # Approve
 curl -X POST -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-  "https://api.bitbucket.org/2.0/repositories/${BB_WORKSPACE}/${BB_REPO}/pullrequests/{pr_id}/approve"
+  "https://api.bitbucket.org/2.0/repositories/<bitbucket_workspace>/<bitbucket_repo>/pullrequests/{pr_id}/approve"
 # or Request changes (post comment)
 curl -X POST -u "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
-  "https://api.bitbucket.org/2.0/repositories/${BB_WORKSPACE}/${BB_REPO}/pullrequests/{pr_id}/comments" \
+  "https://api.bitbucket.org/2.0/repositories/<bitbucket_workspace>/<bitbucket_repo>/pullrequests/{pr_id}/comments" \
   -H "Content-Type: application/json" \
   -d '{"content": {"raw": "<summary>"}}'
 ```
@@ -292,7 +292,7 @@ Present a complete summary of the review:
 Get the PR URL:
 - **GitHub:** `gh pr view <pr-number> --json url -q .url`
 - **GitLab:** `glab mr view <mr-iid> --web` (or construct from remote URL)
-- **Bitbucket:** `https://bitbucket.org/${BB_WORKSPACE}/${BB_REPO}/pull-requests/{pr_id}`
+- **Bitbucket:** `https://bitbucket.org/<bitbucket_workspace>/<bitbucket_repo>/pull-requests/{pr_id}`
 
 ## Important notes
 

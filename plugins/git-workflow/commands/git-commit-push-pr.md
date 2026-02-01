@@ -83,7 +83,7 @@ Use `bitbucket_workspace` and `bitbucket_repo` from the Provider cache in Contex
 Create PR with curl (Basic Auth with BITBUCKET_EMAIL:BITBUCKET_API_TOKEN):
 ```bash
 curl --silent --request POST \
-  --url "https://api.bitbucket.org/2.0/repositories/${BB_WORKSPACE}/${BB_REPO}/pullrequests" \
+  --url "https://api.bitbucket.org/2.0/repositories/<bitbucket_workspace>/<bitbucket_repo>/pullrequests" \
   --user "${BITBUCKET_EMAIL}:${BITBUCKET_API_TOKEN}" \
   --header 'Content-Type: application/json' \
   --data '{
@@ -93,6 +93,8 @@ curl --silent --request POST \
     "close_source_branch": true
   }'
 ```
+
+Replace `<bitbucket_workspace>` and `<bitbucket_repo>` with the values from the Provider cache.
 
 Replace `<PARENT_BRANCH>` with the detected parent branch.
 
