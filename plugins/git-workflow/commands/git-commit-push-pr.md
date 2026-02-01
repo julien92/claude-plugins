@@ -1,7 +1,6 @@
 ---
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(eval:*)
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(mkdir:*), Write
 description: Commit, push and create a Pull Request targeting the parent branch (GitHub/GitLab/Bitbucket)
-disable-model-invocation: true
 ---
 
 ## Context
@@ -11,7 +10,7 @@ disable-model-invocation: true
 - Current branch: !`git branch --show-current`
 - Remote URL: !`git remote get-url origin`
 - Remote branches: !`git branch -r`
-- Git provider: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/detect-provider.sh`
+- Provider cache: !`cat .claude/jc-marketplace/git-workflow/cache.md 2>/dev/null || echo "not cached"`
 
 ## Your task
 
@@ -22,13 +21,12 @@ Based on the above changes:
 3. Push the branch to origin
 4. Create a pull request targeting the parent branch
 
-Based on the **Git provider** shown in Context:
+**If Provider cache shows "not cached"**, follow the `plugin-cache` skill to create it, then continue.
+
+Based on the **provider** in cache:
 - `github` → use `gh pr create`
 - `gitlab` → use `glab mr create`
-- `bitbucket` → use curl API (see Bitbucket PR section)
-- `unknown` → ask user which provider to use
-
-For self-hosted instances, set `$GIT_PROVIDER` env var.
+- `bitbucket` → use curl API with `bitbucket_workspace` and `bitbucket_repo` from cache
 
 ## Detect parent branch
 
@@ -80,11 +78,7 @@ Replace `<PARENT_BRANCH>` with the detected parent branch.
 
 ## Bitbucket PR
 
-Extract workspace and repo using the shared script:
-```bash
-eval $(bash ${CLAUDE_PLUGIN_ROOT}/scripts/parse-bitbucket-url.sh)
-# Sets: BB_WORKSPACE, BB_REPO
-```
+Use `bitbucket_workspace` and `bitbucket_repo` from the Provider cache in Context.
 
 Create PR with curl (Basic Auth with BITBUCKET_EMAIL:BITBUCKET_API_TOKEN):
 ```bash

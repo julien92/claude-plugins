@@ -2,40 +2,11 @@
 
 Leverage AI in your daily Git workflows. Compatible with all major providers: GitHub, GitLab, Bitbucket (cloud & self-hosted).
 
-## Requirements
-
-| Tool | Git provider | Install |
-|------|--------------|---------|
-| **git** | All | — |
-| **gh** | GitHub | [cli.github.com](https://cli.github.com/) |
-| **glab** | GitLab | [gitlab.com/gitlab-org/cli](https://gitlab.com/gitlab-org/cli) |
-| **curl** + **jq** | Bitbucket | (no official CLI) |
-
 ## Installation
 
 ```bash
 claude plugin install git-workflow@julien92-plugins
 ```
-
-## Skills
-
-Skills are automatically loaded when relevant to provide Claude with domain-specific knowledge.
-
-### commit-message
-
-Provides conventions for writing git commit messages with Gitmoji emojis.
-
-**Triggers:** "commit changes", "create a commit", "push my code", "commit and push"
-
-**Coverage:**
-- Gitmoji emoji conventions (✨ features, 🐛 bugs, 📝 docs, etc.)
-- Commit message format and structure
-- Ticket reference extraction from branch names
-
-**Resources:**
-| File | Description |
-|------|-------------|
-| `skills/commit-message/SKILL.md` | Core conventions (~60 lines) |
 
 ## Commands
 
@@ -65,9 +36,9 @@ Claude reviews your staged changes and suggests a Gitmoji commit message. If you
 ```
 Commits your changes, pushes to remote, and creates a PR on GitHub/GitLab/Bitbucket.
 
+- Auto-detects provider (cached for future use)
 - Creates a new branch if on main/master/develop
 - Uses `/git-commit` conventions
-- Auto-detects provider from remote URL (github.com, gitlab.com, bitbucket.org)
 - **Targets the parent branch**: automatically detects the branch from which your feature branch was created (e.g., if you branched from `develop`, the PR targets `develop`)
 
 ### Generate Changelog
@@ -154,6 +125,15 @@ Ask Claude why code exists the way it does. Claude investigates git history (bla
 >
 > The complexity comes from backwards compatibility with 3 ID formats.
 
+## Requirements
+
+| Tool | Git provider | Install |
+|------|--------------|---------|
+| **git** | All | — |
+| **gh** | GitHub | [cli.github.com](https://cli.github.com/) |
+| **glab** | GitLab | [gitlab.com/gitlab-org/cli](https://gitlab.com/gitlab-org/cli) |
+| **curl** + **jq** | Bitbucket | (no official CLI) |
+
 ## Configuration
 
 ### GitHub / GitLab
@@ -185,15 +165,33 @@ export BITBUCKET_API_TOKEN="your-app-password"
 
 ### Self-hosted (GitHub Enterprise / GitLab)
 
-Provider is auto-detected from remote URL. Only set `$GIT_PROVIDER` for self-hosted instances:
+If the provider can't be auto-detected from your remote URL, any git-workflow command will prompt you to choose your provider. The selection is cached for future use.
 
-```json
-{
-  "env": {
-    "GIT_PROVIDER": "github"
-  }
-}
-```
+## Skills
+
+Skills are automatically loaded when relevant to provide Claude with domain-specific knowledge.
+
+### commit-message
+
+Provides conventions for writing git commit messages with Gitmoji emojis.
+
+**Triggers:** "commit changes", "create a commit", "push my code", "commit and push"
+
+**Coverage:**
+- Gitmoji emoji conventions (✨ features, 🐛 bugs, 📝 docs, etc.)
+- Commit message format and structure
+- Ticket reference extraction from branch names
+
+### plugin-cache
+
+Caches detected provider info to avoid repeated detection.
+
+**File:** `.claude/jc-marketplace/git-workflow/cache.md` (created by `/git-setup`)
+
+**Cached values:**
+- `provider`: github, gitlab, bitbucket, or unknown
+- `bitbucket_workspace`: For Bitbucket API calls
+- `bitbucket_repo`: For Bitbucket API calls
 
 ## Credits
 

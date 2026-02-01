@@ -1,8 +1,7 @@
 ---
-allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(jq:*), Bash(eval:*), Read
+allowed-tools: Bash(git:*), Bash(gh:*), Bash(glab:*), Bash(curl:*), Bash(jq:*), Bash(mkdir:*), Read, Write
 description: Review any Pull Request with AI-assisted analysis and inline comments (GitHub/GitLab/Bitbucket)
 argument-hint: "[PR number]"
-disable-model-invocation: true
 ---
 
 ## Context
@@ -10,7 +9,7 @@ disable-model-invocation: true
 - Current branch: !`git branch --show-current`
 - Uncommitted changes: !`git status --porcelain`
 - Remote URL: !`git remote get-url origin`
-- Git provider: !`bash ${CLAUDE_PLUGIN_ROOT}/scripts/detect-provider.sh`
+- Provider cache: !`cat .claude/jc-marketplace/git-workflow/cache.md 2>/dev/null || echo "not cached"`
 
 ## Your task
 
@@ -22,13 +21,12 @@ Help the user review a Pull Request with AI-assisted analysis. You will:
 5. Restore context
 6. Show final summary with PR link
 
-Based on the **Git provider** shown in Context:
+**If Provider cache shows "not cached"**, follow the `plugin-cache` skill to create it, then continue.
+
+Based on the **provider** in cache:
 - `github` → use `gh` CLI
 - `gitlab` → use `glab` CLI
-- `bitbucket` → use curl API (extract workspace/repo first, see Step 2)
-- `unknown` → ask user which provider to use
-
-For self-hosted instances, set `$GIT_PROVIDER` env var.
+- `bitbucket` → use curl API with `bitbucket_workspace` and `bitbucket_repo` from cache
 
 ## Step 1: Save context
 
@@ -39,13 +37,11 @@ If there are uncommitted changes (git status --porcelain is not empty):
 git stash push -m "git-review-context-$(date +%s)"
 ```
 
-## Step 2: For Bitbucket, extract workspace and repo
+## Step 2: Bitbucket setup
 
-If the provider is `bitbucket`, extract workspace and repo:
-```bash
-eval $(bash ${CLAUDE_PLUGIN_ROOT}/scripts/parse-bitbucket-url.sh)
-# Sets: BB_WORKSPACE, BB_REPO
-```
+For Bitbucket repos, use these values from the Provider cache throughout:
+- `bitbucket_workspace` → use in API URLs as the workspace
+- `bitbucket_repo` → use in API URLs as the repository name
 
 ## Step 3: List open PRs
 
