@@ -1,6 +1,7 @@
 ---
 allowed-tools: Bash(git blame:*), Bash(git log:*), Bash(git show:*), Read, Grep, Glob
-description: Understand WHY code exists - AI-powered git archaeology
+description: Investigate git history to explain why specific code exists - use when user asks about code origins, reasons, or historical context
+argument-hint: "<file:line or function name>"
 ---
 
 ## Context

@@ -1,6 +1,6 @@
 ---
 allowed-tools: Bash(git status:*), Bash(git diff:*), Bash(git rebase:*), Bash(git checkout:*), Bash(git add:*), Read, Write, Edit
-description: Interactive assistant to resolve rebase conflicts
+description: Help resolve git rebase conflicts interactively - use when user is stuck in a rebase or has merge conflicts
 ---
 
 ## Context
