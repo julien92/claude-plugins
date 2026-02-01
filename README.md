@@ -1,20 +1,22 @@
-# cc-marketplace
+# claude-code-marketplace
 
-Productivity plugins for [Claude Code](https://claude.com/blog/claude-code-plugins).
+Productivity plugins for [Claude Code](https://github.com/anthropics/claude-code).
+
+> **Disclaimer:** This is an independent community project, not affiliated with, endorsed by, or sponsored by Anthropic. "Claude" is a trademark of Anthropic, PBC.
 
 ## 🚀 Quick Start
 
 ```bash
 # 1. Add this marketplace
-claude plugin marketplace add julien92/cc-marketplace
+claude plugin marketplace add julien92/claude-code-marketplace
 
 # 2. Install a plugin
-claude plugin install git-workflow@cc-marketplace
+claude plugin install git-workflow@claude-code-marketplace
 ```
 
 Or use the community CLI (one command):
 ```bash
-npx claude-plugins install git-workflow@cc-marketplace
+npx claude-plugins install git-workflow@claude-code-marketplace
 ```
 
 ## 📦 Available Plugins
