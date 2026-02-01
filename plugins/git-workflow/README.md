@@ -86,7 +86,15 @@ Claude creates a test script and uses `git bisect run` to automatically find the
 You: "The login test started failing"
 Claude: I'll create bisect-test.sh and run it on each commit.
 
-🎯 Found: d4e5f6g "Refactor auth middleware"
+🎯 Culprit Found
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📍 Commit:  d4e5f6g
+📝 Message: Refactor auth middleware
+👤 Author:  Alice <alice@example.com>
+📁 Files:   src/auth/middleware.ts (+12 -8)
+🔬 Analysis: Removed null check on line 47
+🔗 https://github.com/user/repo/commit/d4e5f6g
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Claude: Want me to fix this and create a PR?
 ```
