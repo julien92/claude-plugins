@@ -57,11 +57,11 @@ Display the culprit commit with this format:
 🔬 Analysis:
    <explain what likely caused the bug based on the diff>
 
-🔗 <link to commit on GitHub/GitLab>
+🔗 <link to commit>
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 ```
 
-Use `git show <hash> --stat` and `git remote get-url origin` to gather info.
+Use `git show <hash> --stat` and `git remote get-url origin` to build the link.
 
 ### 5. Propose fix
 
