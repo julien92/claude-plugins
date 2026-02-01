@@ -1,5 +1,5 @@
 ---
-name: gitmoji-conventions
+name: commit-message
 description: Conventions for writing git commit messages with Gitmoji emojis - use when creating commits
 ---
 
